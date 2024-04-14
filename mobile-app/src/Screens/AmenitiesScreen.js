@@ -1,162 +1,220 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; 
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Modal,
+  Button,
+  FlatList,
+  ImageBackground,
+} from 'react-native';
 
-
-const { width } = Dimensions.get("screen");
-
-const AmenitiesScreen = () => {
-  const navigation = useNavigation();
+const CoinSelector = ({ selectedCoin, coins, onSelect }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/pool.png")} style={styles.image} resizeMode="cover"></Image>
-               <View style={styles.textBackground}>
-               <Text style={styles.text}>Pool</Text>
-               </View>
-            <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('BookPool')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
+    <>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.coinSelectButton}>
+        <Text style={styles.coinSelectButtonText}>{selectedCoin}</Text>
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+        <View style={styles.modalContent}>
+          <FlatList
+            data={coins}
+            keyExtractor={(item) => item}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.coinOption}
+                onPress={() => {
+                  onSelect(item);
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={styles.coinOptionText}>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
         </View>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/gym.png")} style={styles.image} resizeMode="cover"></Image>
-            <View style={styles.textBackground}>
-            <Text style={styles.text}>Gym</Text>
-            </View> 
-              <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('BookGym')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/sauna.png")} style={styles.image} resizeMode="cover"></Image>
-            <View style={styles.textBackgroundSauna}>  
-            <Text style={styles.text}>Sauna</Text>
-            </View>
-              <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('BookSauna')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/massage.png")} style={styles.image} resizeMode="cover"></Image>
-            <View style={styles.textBackgroundLong3}>
-            <Text style={styles.text}>Massage Room</Text>
-            </View>
-              <TouchableOpacity style={styles.bookButton} onPress={() => navigation.navigate('BookMassage')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/conference.png")} style={styles.image} resizeMode="cover"></Image>
-            <View style={styles.textBackgroundLong2}>
-            <Text style={styles.text}>Conference Room</Text>
-            </View>
-              <TouchableOpacity style={styles.bookButton}  onPress={() => navigation.navigate('BookConference')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.mediaImageContainer}>
-            <Image source={require("../../assets/party.png")} style={styles.image} resizeMode="cover"></Image>
-            <View style={styles.textBackgroundLong}>
-            <Text style={styles.text}>Party Room</Text>
-            </View>
-              <TouchableOpacity style={styles.bookButton}  onPress={() => navigation.navigate('BookParty')}>
-                <Ionicons name="add-circle" size={24} color="#FFF" />
-            </TouchableOpacity>
-        </View>
-        {/* Add more amenities as needed */}
-    </ScrollView>
+      </Modal>
+    </>
   );
 };
 
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
+
+const SwapScreen = () => {
+  const [coin1, setCoin1] = useState('BTC');
+  const [coin2, setCoin2] = useState('ETH');
+  const [coinAmount1, setCoinAmount1] = useState('');
+  const [coinAmount2, setCoinAmount2] = useState('');
+
+  const handleSwap = () => {
+    // Handle the swap logic here
+  }
+
+  
+
+return (
+  <DismissKeyboard>
+    <SafeAreaView style={styles.container}>
+    <Text style={styles.title}>Swap</Text>
+      <View style={styles.inputContainer}>
+        <CoinSelector 
+          selectedCoin={coin1} 
+          coins={['BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BNB', 'ADA']}
+                    onSelect={(selected) => setCoin1(selected)} 
+        />
+        <View style={styles.inputBox}>
+        <TextInput
+            style={styles.input}
+            value={coinAmount1}
+            onChangeText={setCoinAmount1}
+            placeholder="Amount to swap"
+            placeholderTextColor="#555"
+            keyboardType="numeric"
+          />
+        </View>
+        <CoinSelector 
+          selectedCoin={coin2} 
+          coins={['BTC', 'ETH', 'USDC', 'USDT', 'SOL', 'BNB', 'ADA']}
+                    onSelect={(selected) => setCoin2(selected)} 
+        />
+        <View style={styles.inputBox}>
+        <TextInput
+            style={styles.input}
+            value={coinAmount2}
+            onChangeText={setCoinAmount2}
+            placeholder="Amount to receive"
+            placeholderTextColor="#555"
+            keyboardType="numeric"
+          />
+             </View>
+        <TouchableOpacity style={styles.swapButton} onPress={handleSwap}>
+            <Text style={styles.swapButtonText}>Swap</Text>
+          </TouchableOpacity>
+        </View>
+    </SafeAreaView>
+  </DismissKeyboard>
+);
+};
+
+
+
+
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    backgroundColor: "#FFF"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#151515',
   },
-  mediaImageContainer: {
-    width: width - 20, 
-    height: width - 150,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: 20,
-    position: 'relative', 
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  bookButton: {
-    position: 'absolute',
-    right: 10, 
-    bottom: 10, 
-    backgroundColor: 'rgba(0,0,0,0.6)', 
-    borderRadius: 25,
-    padding: 8,
-    zIndex: 1, 
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
+  title: {
     color: 'white',
-    zIndex: 2, 
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30,
   },
-  textBackground: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    borderRadius: 5, 
-    paddingVertical: 20, 
-    paddingHorizontal: 30,
-    zIndex: 2, 
+  inputContainer: {
+    width: '80%',
+    backgroundColor: 'lightgray',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
   },
-  textBackgroundLong: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    borderRadius: 5, 
-    paddingVertical: 20, 
-    paddingHorizontal: 62,
-    zIndex: 2, 
+  inputBox: {
+    width: '100%',
+    marginBottom: 15,
   },
-  textBackgroundLong2: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    borderRadius: 5, 
-    paddingVertical: 20, 
-    paddingHorizontal: 90,
-    zIndex: 2, 
+  input: {
+    backgroundColor: 'white',
+    color: '#fff',
+    fontSize: 20,
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: '100%',
+    textAlign: 'center',
   },
-  textBackgroundLong3: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    borderRadius: 5, 
-    paddingVertical: 20, 
-    paddingHorizontal: 78,
-    zIndex: 2, 
+  selectButton: {
+    backgroundColor: '#2172E5',
+    paddingVertical: 10,
+    borderRadius: 5,
+    width: '100%',
   },
-  textBackgroundSauna: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    borderRadius: 5, 
-    paddingVertical: 20, 
-    paddingHorizontal: 38,
-    zIndex: 2, 
+  buttonText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  swapButton: {
+    backgroundColor: 'darkgrey',
+    paddingVertical: 10,
+    width: '100%',
+    borderRadius: 5,
+    marginTop: 20, 
+  },
+  swapButtonText: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  coinSelectButton: {
+    backgroundColor: 'black', 
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    width: '100%',
+    marginVertical: 5,
+    alignItems: 'center', 
+    justifyContent: 'center',
+  },
+  coinSelectButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end', 
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', 
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
+  coinOption: {
+    padding: 20,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E2E2', 
+  },
+  coinOptionText: {
+    fontSize: 18,
+    color: '#333', 
   },
 });
 
-export default AmenitiesScreen;
+export default SwapScreen;

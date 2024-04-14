@@ -11,22 +11,15 @@ const HomeScreen = ({ navigation }) => {
 
 
   const newsUpdates = [
-    { 
-      id: '1', 
-      title: 'Bitcoin Conference 2024', 
-      summary: 'Join us for the annual Bitcoin conference this weekend! Explore the latest trends and network with industry leaders.', 
-      image: require('../../assets/bitcoin-conference.png') 
-    },
-    { 
-      id: '2', 
-      title: 'Ethereum 2.0 Rollout', 
-      summary: 'Ethereum is upgrading! Dive into what Ethereum 2.0 means for the future of decentralized apps.', 
-      image: require('../../assets/ethereum-update.png') 
-    },
+    { id: '1', title: 'Summer Pool Party', summary: 'Join us for a summer pool party this Saturday!', image: require('../../assets/pool.png') },
+    { id: '2', title: 'Gym Renovation', summary: 'Our gym is getting an upgrade. Check out the new equipment!', image: require('../../assets/gym.png') },
   ];
-  
 
-  
+  const quickAccess = [
+    { id: '1', name: 'View Bookings', icon: 'calendar-alt', iconSet: 'FontAwesome5', screen: 'ViewBookings', onPress: () => navigation.navigate('ViewBookings')},
+    { id: '2', name: 'Service Request', icon: 'tools', iconSet: 'FontAwesome5', screen: 'ServiceRequest', onPress: () => navigation.navigate('ServiceRequest')}, 
+    { id: '3', name: 'Contact Management', icon: 'email', iconSet: 'MatericalIcons', screen: 'ContactManagement', onPress: () => navigation.navigate('ContactManagement')},
+  ];
 
   const renderNewsCard = ({ item }) => (
     <TouchableOpacity style={styles.newsCard}>
@@ -36,7 +29,33 @@ const HomeScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  const renderQuickAccessButton = ({ item, key }) => {
+    const IconComponent = item.iconSet === 'FontAwesome5' ? FontAwesome5 : MaterialIcons;
+    let iconColor = "#52575D"; 
+    switch(item.name) {
+      case 'View Bookings':
+        iconColor = '#4CAF50'; 
+        break;
+      case 'Service Request':
+        iconColor = '#FFC107'; 
+        break;
+      case 'Contact Management':
+        iconColor = '#2196F3'; 
+        break;
+    }
+    
   
+    return (
+      <TouchableOpacity
+        key={key}
+        style={styles.quickAccessButton}
+        onPress={() => navigation.navigate(item.screen)}
+      >
+        <IconComponent name={item.icon} size={30} color={iconColor} />
+        <Text style={styles.quickAccessText}>{item.name}</Text>
+      </TouchableOpacity>
+    );
+  };
 
 
   const fetchUserProfile = async () => {
@@ -77,8 +96,12 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}> {user || 'Welcome!'} </Text> 
+      <Text style={styles.welcomeText}> {user} </Text> 
       {/* will dynamically adjust once login is working  */}
+
+      <View style={styles.quickAccessContainer}>
+      {quickAccess.map(item => renderQuickAccessButton({ item, key: item.id }))}
+    </View>
 
       <Text style={styles.sectionTitle}>Latest News & Updates</Text>
       <FlatList

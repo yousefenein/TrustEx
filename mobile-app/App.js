@@ -10,16 +10,7 @@ import SignupScreen from './src/Screens/SignupScreen';
 import ProfileScreen from './src/Screens/ProfileScreen';
 import AmenitiesScreen from './src/Screens/AmenitiesScreen';
 import HomeScreen from './src/Screens/HomeScreen';
-import BookPool from './src/Screens/Bookings/BookPool';
-import BookGym from './src/Screens/Bookings/BookGym';
-import BookSauna from './src/Screens/Bookings/BookSauna';
-import BookMassage from './src/Screens/Bookings/BookMassage';
-import BookConference from './src/Screens/Bookings/BookConference';
-import BookParty from './src/Screens/Bookings/BookParty';
-import ViewBookings from './src/Screens/Bookings/ViewBookings';
-import CreateServiceRequests from './src/Screens/CreateServiceRequests';
-import ContactManagement from './src/Screens/ContactManagement';
-import ActivationScreen from './src/Screens/AddActivationCode';
+
 
 // Import other screens and icons as needed
 
@@ -56,7 +47,7 @@ function MainScreens() {
           />
 
           <Tab.Screen 
-          name="Book Amenities" 
+          name="Swap" 
           component={AmenitiesScreen} 
            options={{
             tabBarIcon: ({focused})=>{
@@ -72,7 +63,7 @@ function MainScreens() {
                   borderRadius: Platform.OS == "ios" ? 25 : 30
                  }}
                 >
-                  <FontAwesome name="plus" size={24} color="#fff" />
+                  <MaterialIcons name="swap-vert" size={24} color="#fff" />
                 </View>
               )
             }
@@ -99,19 +90,9 @@ function App() {
     <NavigationContainer>
       <MainStack.Navigator screenOptions={{ headerShown: false }}>
 
-        <MainStack.Screen name="Auth" component={AuthScreens} />
+        {/* <MainStack.Screen name="Auth" component={AuthScreens} /> */}
         {/* You can add more screens to MainStack that are not part of the bottom tabs but still within the authenticated flow */}
         <MainStack.Screen name="Main" component={MainScreens} />
-        <MainStack.Screen name="BookPool" component={BookPool} />
-        <MainStack.Screen name="BookGym" component={BookGym} />
-        <MainStack.Screen name="BookSauna" component={BookSauna} />
-        <MainStack.Screen name="BookMassage" component={BookMassage} />
-        <MainStack.Screen name="BookConference" component={BookConference} />
-        <MainStack.Screen name="BookParty" component={BookParty} />
-        <MainStack.Screen name="ViewBookings" component={ViewBookings} />
-        <MainStack.Screen name="ServiceRequest" component={CreateServiceRequests} />
-        <MainStack.Screen name="ContactManagement" component={ContactManagement} />
-        <MainStack.Screen name="AddActivationCode" component={ActivationScreen} />
         <MainStack.Screen name="Profile" component={ProfileScreen} />
 
 

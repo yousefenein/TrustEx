@@ -156,6 +156,12 @@ export default function App() {
                         <Text style={styles.dropdownItemText}>Edit picture</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        onPress={() => navigation.navigate('AddActivationCode')}
+                        style={styles.dropdownItem}
+                    >
+                        <Text style={styles.dropdownItemText}>Add Condo</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         onPress={handleLogout}
                         style={styles.dropdownItem}
                     >
@@ -172,15 +178,34 @@ export default function App() {
                     </View>
                 </View>
 
+                    <View style={styles.infoContainer}>
+                    {userRole === 'publicUser' ? (
+                        <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+                        {username ? username : 'User'}
+                        </Text>
+                    ) : (
+                        <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+                        {companyName ? companyName : 'Company'}
+                        </Text>
+                    )}
+                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
+                        {phone ? phone : '(XXX)-XXX-XXXX'}
+                    </Text>
+                    </View>
 
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>$3250</Text>
-                        <Text style={[styles.text, styles.subText]}>Balance</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>32</Text>
+                        <Text style={[styles.text, styles.subText]}>Parking #</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.textPNL, { fontSize: 24 }]}>-203.2%</Text>
-                        <Text style={[styles.text, styles.subText]}>PNL</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>4503</Text>
+                        <Text style={[styles.text, styles.subText]}>Condo Unit # </Text>
+                    </View>
+                    <View style={styles.statsBox}>
+                        <Text style={[styles.text, { fontSize: 24 }]}>252</Text>
+                        <Text style={[styles.text, styles.subText]}>Storage #</Text>
+                        {/* // or we can put lease end date etc..  */}
                     </View>
                 </View>
             
@@ -188,13 +213,13 @@ export default function App() {
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {/* We can insert condo plans here */}
                         <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../assets/sol.png")} style={styles.image} resizeMode="cover"></Image>
+                            <Image source={require("../../assets/condo.png")} style={styles.image} resizeMode="cover"></Image>
                         </View>
                         <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../assets/eth.png")} style={styles.image} resizeMode="cover"></Image>
+                            <Image source={require("../../assets/condo.png")} style={styles.image} resizeMode="cover"></Image>
                         </View>
                         <View style={styles.mediaImageContainer}>
-                            <Image source={require("../../assets/btc.png")} style={styles.image} resizeMode="cover"></Image>
+                            <Image source={require("../../assets/condo.png")} style={styles.image} resizeMode="cover"></Image>
                         </View>
                     </ScrollView>
                 </View>
@@ -205,7 +230,7 @@ export default function App() {
                         <View style={styles.activityIndicator}></View>
                         <View style={{ width: 250 }}>
                             <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                                You swapped <Text style={{ fontWeight: "400" }}> 3.09 SOL</Text> for <Text style={{ fontWeight: "400" }}> 454 USDC</Text>
+                                Rent is Due in <Text style={{ fontWeight: "400" }}> 5 days</Text>
                             </Text>
                         </View>
                     </View>
@@ -214,7 +239,7 @@ export default function App() {
                     <View style={styles.activityIndicator}></View>
                         <View style={{ width: 250 }}>
                             <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                                Your Bank Transfer request has been <Text style={{ fontWeight: "400" }}>received!</Text>
+                                A/C service request now marked as <Text style={{ fontWeight: "400" }}>completed</Text>
                             </Text>
                         </View>
                     </View>
@@ -232,10 +257,6 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: "HelveticaNeue",
         color: "#52575D"
-    },
-    textPNL: {
-        fontFamily: "HelveticaNeue",
-        color: "red"
     },
     image: {
         flex: 1,
