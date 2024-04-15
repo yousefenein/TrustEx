@@ -77,7 +77,7 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}> {user || 'Welcome!'} </Text> 
+      <Text style={styles.welcomeText}> {user || 'Welcome to TrustEx!'} </Text> 
       {/* will dynamically adjust once login is working  */}
 
       <Text style={styles.sectionTitle}>Latest News & Updates</Text>
