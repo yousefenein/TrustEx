@@ -1,6 +1,6 @@
 # 357 Final Project 
 
-## TrustEx - A mmore transparent exchange 
+## TrustEx - A more transparent exchange !
 
 **Features include:** 
 
